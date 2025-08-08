@@ -6,7 +6,6 @@ import com.test.domain.WiseSaying;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class WiseSayingService {
 
