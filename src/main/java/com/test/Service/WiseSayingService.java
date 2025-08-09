@@ -1,5 +1,6 @@
 package com.test.Service;
 
+import com.test.Json.JsonBackUpService;
 import com.test.Repository.WiseSayingRepository;
 import com.test.Repository.WiseSayingRepositoryImpl;
 import com.test.domain.WiseSaying;
@@ -10,15 +11,14 @@ import java.util.NoSuchElementException;
 public class WiseSayingService {
 
     WiseSayingRepository wiseSayingRepository = WiseSayingRepositoryImpl.getInstance();
+    JsonBackUpService jsonBackUpService = new JsonBackUpService();
 
     public WiseSaying create(String content, String author){
 
         isValidateObject(content, author);
 
         WiseSaying wiseSaying = new WiseSaying(content, author);
-        wiseSayingRepository.memorySave(wiseSaying);
         wiseSayingRepository.save(wiseSaying);
-        wiseSayingRepository.setSequence();
 
         return wiseSaying;
     }
@@ -41,7 +41,6 @@ public class WiseSayingService {
     public int deleteWiseSaying(int id){
         findWiseSaying(id);
         wiseSayingRepository.delete(id);
-        wiseSayingRepository.deleteFromMemory(id);
         return id;
     }
 
@@ -53,13 +52,12 @@ public class WiseSayingService {
 
         isValidateObject(content, author);
         WiseSaying wiseSaying = new WiseSaying(id, content, author);
-        wiseSayingRepository.editFromMemory(wiseSaying);
+        wiseSayingRepository.modify(wiseSaying);
         wiseSayingRepository.save(wiseSaying);
     }
 
     public String build(){
-        wiseSayingRepository.dataBackUp();
+        jsonBackUpService.dataBackUp();
         return "data.json 파일의 내용이 갱신되었습니다.";
-
     }
 }
