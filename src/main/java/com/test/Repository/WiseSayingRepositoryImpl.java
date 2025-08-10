@@ -10,16 +10,11 @@ public class WiseSayingRepositoryImpl implements WiseSayingRepository {
     private final Map<Integer, WiseSaying> storage = new HashMap<>();
     private int sequence = 0;
 
-    private static final WiseSayingRepository instance = new WiseSayingRepositoryImpl(); //singleton
-    private final JsonDBManager jsonDBManager = new JsonDBManager();
+    private final JsonDBManager jsonDBManager;
 
-
-    public static WiseSayingRepository getInstance(){
-        return instance;
-    }
-
-    private WiseSayingRepositoryImpl(){ //singleton
+    public WiseSayingRepositoryImpl(JsonDBManager jsonDBManager){
         try {
+            this.jsonDBManager = jsonDBManager;
             memoryLoad();
         } catch (IOException e) {
             throw new RuntimeException("메모리 로드 실패");

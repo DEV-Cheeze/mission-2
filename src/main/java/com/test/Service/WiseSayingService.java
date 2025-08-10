@@ -9,9 +9,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class WiseSayingService {
+    private final WiseSayingRepository wiseSayingRepository;
+    private final JsonBackUpService jsonBackUpService;
 
-    WiseSayingRepository wiseSayingRepository = WiseSayingRepositoryImpl.getInstance();
-    JsonBackUpService jsonBackUpService = new JsonBackUpService();
+    public WiseSayingService(WiseSayingRepository wiseSayingRepository, JsonBackUpService jsonBackUpService){
+        this.wiseSayingRepository = wiseSayingRepository;
+        this.jsonBackUpService = jsonBackUpService;
+    }
 
     public WiseSaying create(String content, String author){
 
@@ -49,11 +53,10 @@ public class WiseSayingService {
     }
 
     public void modify(int id, String content, String author){
-
         isValidateObject(content, author);
+
         WiseSaying wiseSaying = new WiseSaying(id, content, author);
         wiseSayingRepository.modify(wiseSaying);
-        wiseSayingRepository.save(wiseSaying);
     }
 
     public String build(){

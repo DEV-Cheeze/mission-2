@@ -1,6 +1,11 @@
 package com.test;
 
 import com.test.Controller.WiseSayingController;
+import com.test.Json.JsonBackUpService;
+import com.test.Json.JsonConverter;
+import com.test.Json.JsonDBManager;
+import com.test.Repository.WiseSayingRepository;
+import com.test.Repository.WiseSayingRepositoryImpl;
 import com.test.Service.WiseSayingService;
 
 
@@ -12,7 +17,12 @@ public class App {
         System.out.println("== 명언 앱 ==");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        WiseSayingController wiseSayingController = new WiseSayingController();
+        JsonConverter jsonConverter = new JsonConverter();
+        JsonDBManager jsonDBManager = new JsonDBManager(jsonConverter);
+        WiseSayingRepository wiseSayingRepository = new WiseSayingRepositoryImpl(jsonDBManager);
+        JsonBackUpService jsonBackUpService = new JsonBackUpService(wiseSayingRepository, jsonConverter);
+        WiseSayingService wiseSayingService = new WiseSayingService(wiseSayingRepository, jsonBackUpService);
+        WiseSayingController wiseSayingController = new WiseSayingController(wiseSayingService);
 
         while(true){
             System.out.print("명령) ");

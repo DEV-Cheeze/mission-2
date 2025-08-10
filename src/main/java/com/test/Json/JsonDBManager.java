@@ -10,7 +10,11 @@ import static com.test.Json.JsonPATHConfig.sequencePATH;
 
 public class JsonDBManager {
 
-    JsonConverter jsonConverter = new JsonConverter();
+    private final JsonConverter jsonConverter;
+
+    public JsonDBManager(JsonConverter jsonConverter){
+        this.jsonConverter = jsonConverter;
+    }
 
     public List<WiseSaying> JsonToMemoryDBLoader(){
         try{

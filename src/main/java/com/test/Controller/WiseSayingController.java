@@ -1,5 +1,6 @@
 package com.test.Controller;
 
+import com.test.Repository.WiseSayingRepository;
 import com.test.Service.WiseSayingService;
 import com.test.domain.WiseSaying;
 
@@ -8,7 +9,11 @@ import java.util.*;
 
 public class WiseSayingController {
 
-    WiseSayingService wiseSayingService = new WiseSayingService();
+    private final WiseSayingService wiseSayingService;
+
+    public WiseSayingController(WiseSayingService wiseSayingService){
+        this.wiseSayingService = wiseSayingService;
+    }
 
     public void assign() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

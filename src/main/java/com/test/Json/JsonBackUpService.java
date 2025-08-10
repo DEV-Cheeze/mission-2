@@ -12,16 +12,21 @@ import java.util.List;
 import static com.test.Json.JsonPATHConfig.DIR_PATH;
 
 public class JsonBackUpService {
+    private final WiseSayingRepository wiseSayingRepository;
+    private final JsonConverter jsonConverter;
 
-    private final WiseSayingRepository wsRepo = WiseSayingRepositoryImpl.getInstance();
-    private final JsonConverter jsonConverter = new JsonConverter();
+    public JsonBackUpService(WiseSayingRepository wiseSayingRepository, JsonConverter jsonConverter){
+        this.wiseSayingRepository = wiseSayingRepository;
+        this.jsonConverter = jsonConverter;
+    }
+
     public void dataBackUp(){
         try {
             String fileName = DIR_PATH + "/" + "data.json";
             FileWriter fw = new FileWriter(fileName);
             BufferedWriter writer = new BufferedWriter(fw);
             StringBuilder sb = new StringBuilder("[");
-            List<WiseSaying> ws = wsRepo.findAll();
+            List<WiseSaying> ws = wiseSayingRepository.findAll();
 
             int num = 1;
             for (WiseSaying w : ws) {
